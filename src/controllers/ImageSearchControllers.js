@@ -24,21 +24,38 @@ const GoogleReverseImageSearch = async (req, res) => {
     res.status(200).json({ googleReverseImageSearchResults });
 }
 
+// const YandexImageSearch = async (req, res) => {
+//     const { searchQuery,imageUrl } = req.body;
+//     console.log("The body has",searchQuery)
+
+//     let yandexImageSearchResults=[];
+//     if(searchQuery==="undefined"){
+//         yandexImageSearchResults = await getYandexImagesSearch(imageUrl);
+//     }else{
+//      yandexImageSearchResults = await getYandexImageSearch(searchQuery,imageUrl);
+
+//     }
+    
+    
+//     res.status(200).json({ yandexImageSearchResults });
+// }
+
+
 const YandexImageSearch = async (req, res) => {
-    const { searchQuery,imageUrl } = req.body;
-    console.log("The body has",searchQuery)
+    const { searchQuery, imageUrl } = req.body;
+    console.log("The body has", searchQuery);
 
-    let yandexImageSearchResults=[];
-    if(searchQuery==="undefined"){
+    let yandexImageSearchResults = [];
+
+    if (typeof searchQuery === "undefined") {
         yandexImageSearchResults = await getYandexImagesSearch(imageUrl);
-    }else{
-     yandexImageSearchResults = await getYandexImagesSearch(searchQuery,imageUrl);
-
+    } else {
+        yandexImageSearchResults = await getYandexImagesSearch(searchQuery, imageUrl);
     }
-    
-    
+
     res.status(200).json({ yandexImageSearchResults });
 }
+
 
 
 module.exports = {

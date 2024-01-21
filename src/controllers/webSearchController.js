@@ -27,10 +27,10 @@ const YandexWebSearch = async (req, res) => {
 };
 
 const GoogleSearch = async (req, res) => {
-  const { searchQuery,location, safetyToogle } = req.body;
-  console.log("The body has",searchQuery,location,safetyToogle)
+  const { searchQuery} = req.body;
+  console.log("The body has",searchQuery)
 
-  const googleWebSearchResults = await getGoogleWebSearch(searchQuery,location, safetyToogle);
+  const googleWebSearchResults = await getGoogleWebSearch(searchQuery);
   res.status(200).json({ googleWebSearchResults });
 }
 
