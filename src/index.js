@@ -1,7 +1,6 @@
-// src/index.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
+const logger = require('./utils/logger.js');
 const { PORT } = require('./configs/serverConfig.js');
 const APIROUTES = require('./routes/index.js');
 const cron = require('node-cron');
@@ -32,29 +31,29 @@ app.get('/', (req, res) => {
 
 async function SetupAndStartServer() {
   app.listen(PORT,host, () => {
-    console.log('Server is listening on port 3000');
+    logger.info('Server is listening on port 3000');
   });
 
   process.on('SIGINT', async () => {
     try {
       // Disconnect the Redis client
       await redisClient.quit();
-      console.log('Redis client disconnected');
+      logger.info('Redis client disconnected');
       process.exit(0); // Exit the process gracefully
     } catch (error) {
-      console.error('Error while disconnecting Redis client:', error);
+      logger.error('Error while disconnecting Redis client:', error);
       process.exit(1); // Exit the process with an error
     }
   });
 
+  // Perform the cleanup
   cron.schedule('0 0 * * 0', async () => {
     try {
-      // Perform the cleanup
-      console.log('Running Redis cleanup job...');
+      logger.warn('Running Redis cleanup job...');
       await redisClient.flushall(); // Delete all keys in the database
-      console.log('Redis cleanup job completed successfully.');
+      logger.info('Redis cleanup job completed successfully.');
     } catch (error) {
-      console.error('Error during Redis cleanup:', error);
+      logger.info('Error during Redis cleanup:', error);
     }
   });
   
